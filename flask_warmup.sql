@@ -150,10 +150,11 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `most_sold_authors`()
 begin
-	select a.name 
+	select a.name, sum(b.copies_sold)
 	from author a
 	inner join book b on a.id = b.author_id 
-	order by b.copies_sold desc;
+	group by b.author_id
+	order by sum(b.copies_sold);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -170,4 +171,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-04 16:42:10
+-- Dump completed on 2022-10-04 17:36:34
